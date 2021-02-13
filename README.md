@@ -1,2 +1,2 @@
 # deeper-node
-Node on deeper level
+Node on a deeper level.
