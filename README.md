@@ -44,17 +44,38 @@ The threadpool is global and shared across all event loops. When a particular fu
 Requests such as http, htttps use OS system to listen or make requests. Fs moduls use threadpool of libuv (4 by default)
 
 ```javascript
-const https = require('https'); const crypto = require('crypto');
+const https = require("https");
+const crypto = require("crypto");
 
-const start = Date.now() // return number of miliseconds
+const start = Date.now(); // return number of miliseconds
 
-function doRequest() { https.requests('https://gogle.com', res => { res.on('data', () => {}) res.end('end', () => { console.log('request', Date.now() - start) }) .end() }
+function doRequest() {
+	https.requests("https://gogle.com", (res) => {
+		res.on("data", () => {});
+		res.end("end", () => {
+			console.log("request", Date.now() - start);
+		});
+	});
+}
 
-function doHash() { crypto.pbkdf2('a', 'b', 100000, () => { console.log('hash', Date.now() - start) }) }
+function doHash() {
+	crypto.pbkdf2("a", "b", 100000, () => {
+		console.log("hash", Date.now() - start);
+	});
+}
 
-function doFs() { fs.readFile('example.js', 'utf-8, () => { console.log('fs', Date.now() - start)' }) }
+function doFs() {
+	fs.readFile("example.js", "utf-8", () => {
+		console.log("fs", Date.now() - start);
+	});
+}
 
-doRequest(); doFs(); doHash(); doHash(); doHash(); doHash();
+doRequest();
+doFs();
+doHash();
+doHash();
+doHash();
+doHash();
 ```
 
 For sending request machine uses internal OS system. It means that it doesn't use neither libuv worker nor Node's event loop. It means that sending request(ping) doesn't work of event loop and can't block the working of Node.
@@ -66,9 +87,14 @@ Workers is a way to create a few instances of Node app. It creates also internal
 // Example
 
 ```javascript
-const cluster = require('cluster');
+const cluster = require("cluster");
 
-if(cluster.isMaster) { cluster.fork(); cluster.fork(); } else { // do some work }
+if (cluster.isMaster) {
+	cluster.fork();
+	cluster.fork();
+} else {
+	/* do some work */
+}
 ```
 
 But in the result all your work will be handled by CPU powerful, that's why creating 1k instances of Node will not resolve handling of the huge bunch of requests and work.
@@ -94,23 +120,28 @@ Remember, that instances are fully separated applications and can be shared betw
 One more feature of Node is Worker. Against of clustering and multi instance aproach, are part of program and can share helpful or handled info between application.
 
 ```javascript
-const Worker = require('webworker-threads').Worker
+const Worker = require("webworker-threads").Worker;
 
-const worker = new Worker(function() { this.onmessage = function() { // 2 then it's caught by this handler // make some big operation
+const worker = new Worker(function () {
+	this.onmessage = function () {
+		// 2 then it's caught by this handler // make some big operation
 
-let counter = 0;
+		let counter = 0;
 
-const randomIntNumber = Math.floor(Math.random() * 10)
-new Array(345441223131).fill(randomIntNumber).forEach(v => {
-  counter += v;
-})
+		const randomIntNumber = Math.floor(Math.random() * 10);
+		new Array(345441223131).fill(randomIntNumber).forEach((v) => {
+			counter += v;
+		});
 
-postMessage(counter); // 3 then send it back
-} })
+		postMessage(counter); // 3 then send it back
+	};
+});
 
-worker.onmessage = function(resultCounter) { // 4 then we receive handled value console.log(resultCounter); }
+worker.onmessage = function (resultCounter) {
+	// 4 then we receive handled value console.log(resultCounter); }
 
-worker.postMessage() // Executing is starting here 1
+	worker.postMessage(); // Executing is starting here 1
+};
 ```
 
 In the code above we can't use closure as an usual, it means that any variables or functions are not be called or used inside of Worker callback. Also we shouldn't use arrow functions to save the refernces on this.
