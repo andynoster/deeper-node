@@ -47,7 +47,7 @@ Requests such as http, htttps use OS system to listen or make requests. Fs modul
 const https = require("https");
 const crypto = require("crypto");
 
-const start = Date.now(); // return number of miliseconds
+const start = Date.now(); // return number of miliseconds.
 
 function doRequest() {
 	https.requests("https://gogle.com", (res) => {
