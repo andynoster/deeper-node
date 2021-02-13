@@ -51,7 +51,7 @@ const start = Date.now(); // return number of miliseconds.
 
 function doRequest() {
 	https.requests("https://gogle.com", (res) => {
-		res.on("data", () => {});
+    	res.on("data", () => {});
 		res.end("end", () => {
 			console.log("request", Date.now() - start);
 		});
@@ -123,7 +123,7 @@ One more feature of Node is Worker. Against of clustering and multi instance apr
 const Worker = require("webworker-threads").Worker;
 
 const worker = new Worker(function () {
-**this.onmessage = function () {
+    this.onmessage = function () {
 		// 2 then it's caught by this handler // make some big operation
 
 		let counter = 0;
