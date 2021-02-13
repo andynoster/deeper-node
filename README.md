@@ -149,4 +149,4 @@ In the code above we can't use closure as an usual, it means that any variables 
 EventEmmiter is a special class in Node to work with events. Usually it's used as Super class (class from that it extends) to use base methods implemented inside of Emmiter.
 EventEmmiter is used when we have statement with multiple state which can be changed some times(even infinite) against a Promise which contans only 3 state and after resolving of catching it couldn't be changed. In case of EventEmmiter we use it if you can change state.
 
-Buffers is a special type of data in Node. In simple words it's a Array of single typed data with limited length...
+Buffers is a special type of data in Node. In simple words it's a Array of single typed data with limited length.
