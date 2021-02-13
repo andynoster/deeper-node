@@ -123,26 +123,27 @@ One more feature of Node is Worker. Against of clustering and multi instance apr
 const Worker = require("webworker-threads").Worker;
 
 const worker = new Worker(function () {
-    this.onmessage = function () {
-        // 2 then it's caught by this handler // make some big operation
+  this.onmessage = function () {
+    // 2 then it's caught by this handler // make some big operation
 
-        let counter = 0;
+    let counter = 0;
 
-        const randomIntNumber = Math.floor(Math.random() * 10);
-        new Array(345441223131).fill(randomIntNumber).forEach((v) => {
-            counter += v;
-        });
+    const randomIntNumber = Math.floor(Math.random() * 10);
+    new Array(345441223131).fill(randomIntNumber).forEach((v) => {
+      counter += v;
+    });
 
-        postMessage(counter); // 3 then send it back
-    };
+    postMessage(counter); // 3 then send it back
+  };
 });
 
 worker.onmessage = function (resultCounter) {
-    // 4 then we receive handled value console.log(resultCounter); }
+  // 4 then we receive handled value console.log(resultCounter); }
 
-    worker.postMessage(); // Executing is starting here 1
+  worker.postMessage(); // Executing is starting here 1
 };
 
+```
 
 In the code above we can't use closure as an usual, it means that any variables or functions are not be called or used inside of Worker callback. Also we shouldn't use arrow functions to save the refernces on this.
 
