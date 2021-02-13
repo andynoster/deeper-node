@@ -50,24 +50,24 @@ const crypto = require("crypto");
 const start = Date.now(); // return number of miliseconds.
 
 function doRequest() {
-	https.requests("https://gogle.com", (res) => {
-    	res.on("data", () => {});
-		res.end("end", () => {
-			console.log("request", Date.now() - start);
-		});
-	});
+  https.requests("https://gogle.com", (res) => {
+    res.on("data", () => {});
+    res.end("end", () => {
+      console.log("request", Date.now() - start);
+    });
+  });
 }
 
 function doHash() {
-	crypto.pbkdf2("a", "b", 100000, () => {
-		console.log("hash", Date.now() - start);
-	});
+  crypto.pbkdf2("a", "b", 100000, () => {
+    console.log("hash", Date.now() - start);
+  });
 }
 
 function doFs() {
-	fs.readFile("example.js", "utf-8", () => {
-		console.log("fs", Date.now() - start);
-	});
+  fs.readFile("example.js", "utf-8", () => {
+    console.log("fs", Date.now() - start);
+  });
 }
 
 doRequest();
@@ -90,10 +90,10 @@ Workers is a way to create a few instances of Node app. It creates also internal
 const cluster = require("cluster");
 
 if (cluster.isMaster) {
-	cluster.fork();
-	cluster.fork();
+  cluster.fork();
+  cluster.fork();
 } else {
-	/* do some work */
+  /* do some work */
 }
 ```
 
@@ -123,24 +123,24 @@ One more feature of Node is Worker. Against of clustering and multi instance apr
 const Worker = require("webworker-threads").Worker;
 
 const worker = new Worker(function () {
-    this.onmessage = function () {
-		// 2 then it's caught by this handler // make some big operation
+  this.onmessage = function () {
+    // 2 then it's caught by this handler // make some big operation
 
-		let counter = 0;
+    let counter = 0;
 
-		const randomIntNumber = Math.floor(Math.random() * 10);
-		new Array(345441223131).fill(randomIntNumber).forEach((v) => {
-			counter += v;
-		});
+    const randomIntNumber = Math.floor(Math.random() * 10);
+    new Array(345441223131).fill(randomIntNumber).forEach((v) => {
+      counter += v;
+    });
 
-		postMessage(counter); // 3 then send it back
-	};
+    postMessage(counter); // 3 then send it back
+  };
 });
 
 worker.onmessage = function (resultCounter) {
-	// 4 then we receive handled value console.log(resultCounter); }
+  // 4 then we receive handled value console.log(resultCounter); }
 
-	worker.postMessage(); // Executing is starting here 1
+  worker.postMessage(); // Executing is starting here 1
 };
 ```
 
